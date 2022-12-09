@@ -19,6 +19,10 @@ func (post *Post) Validate() (string, bool) {
 		return "Title should be on the payload", false
 	}
 
+	if post.Nickname == "" {
+		return "Nickname should be on the payload", false
+	}
+
 	if post.Content == "" {
 		return "Content should be on the payload", false
 	}
