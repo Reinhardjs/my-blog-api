@@ -29,5 +29,9 @@ func (post *Post) Validate() (string, bool) {
 		return "Content should be on the payload", false
 	}
 
+	if post.Url == "" {
+		return "Url should be on the payload", false
+	}
+
 	return "Payload is valid", true
 }
