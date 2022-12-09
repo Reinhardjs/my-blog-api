@@ -134,8 +134,6 @@ func (e *PostRepoImpl) Update(id int, post *models.Post) (*models.Post, error) {
 		return nil, redisDeleteAllErr
 	}
 
-	updatedPost.ID = id
-
 	return updatedPost, nil
 }
 

@@ -124,7 +124,6 @@ func (e *PostController) UpdatePost() http.Handler {
 		}
 
 		post := &models.Post{}
-		post.ID = postId
 		decodeError := json.NewDecoder(r.Body).Decode(post)
 		if decodeError != nil {
 			return utils.NewHTTPError(nil, 400, "Invalid request body format")
@@ -146,7 +145,7 @@ func (e *PostController) UpdatePost() http.Handler {
 			}
 		}
 
-		updatedPost, updatePostErr := e.postUsecase.Update(post.ID, post)
+		updatedPost, updatePostErr := e.postUsecase.Update(postId, post)
 		updatedPost.CreatedAt = oldPost.CreatedAt
 
 		if updatePostErr != nil {
