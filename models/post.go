@@ -1,15 +1,18 @@
 package models
 
 import (
-	"github.com/jinzhu/gorm"
+	"time"
 )
 
 type Post struct {
-	gorm.Model
-	Url      string `gorm:"unique" json:"url"`
-	Nickname string `json:"nickname"`
-	Title    string `json:"title"`
-	Content  string `json:"content"`
+	ID        int64      `json:"id" gorm:"primary_key"`
+	Url       string     `json:"url" gorm:"unique"`
+	Nickname  string     `json:"nickname"`
+	Title     string     `json:"title"`
+	Content   string     `json:"content"`
+	CreatedAt *time.Time `json:"createdAt"`
+	UpdatedAt *time.Time `json:"updatedAt"`
+	DeletedAt *time.Time `json:"deletedAt" sql:"index"`
 }
 
 func (post *Post) Validate() (string, bool) {
