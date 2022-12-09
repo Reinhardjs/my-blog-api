@@ -19,7 +19,7 @@ func CommentRoute(router *mux.Router) {
 	commentController := controllers.CreateCommentController(commentUsecase)
 
 	router.Handle("/comments", commentController.GetComments()).Methods("GET")
-	router.Handle("/comments/{id}", commentController.GetComment()).Methods("GET")
+	router.Handle("/comments/{commentId}", commentController.GetComment()).Methods("GET")
 	router.Handle("/comments", commentController.CreateComment()).Methods("POST")
 	router.Handle("/comments/{commentId}", commentController.UpdateComment()).Methods("PUT")
 	router.Handle("/comments/{commentId}", commentController.UpdateComment()).Methods("PATCH")

@@ -51,7 +51,7 @@ func (e *CommentController) GetComment() http.Handler {
 		defer cancel()
 
 		params := mux.Vars(r)
-		id, err := strconv.Atoi(params["id"])
+		id, err := strconv.Atoi(params["commentId"])
 
 		if err != nil {
 			return utils.NewHTTPError(err, 400, "Invalid comments id")
@@ -113,7 +113,7 @@ func (e *CommentController) UpdateComment() http.Handler {
 		rw.Header().Add("Content-Type", "application/json")
 
 		params := mux.Vars(r)
-		commentsId, err := strconv.Atoi(params["commentsId"])
+		commentId, err := strconv.Atoi(params["commentId"])
 
 		if err != nil {
 			return utils.NewHTTPError(nil, 400, "Invalid comments id")
@@ -125,7 +125,7 @@ func (e *CommentController) UpdateComment() http.Handler {
 			return utils.NewHTTPError(nil, 400, "Invalid request body format")
 		}
 
-		oldComment, oldCommentErr := e.commentsUsecase.ReadById(int(commentsId))
+		oldComment, oldCommentErr := e.commentsUsecase.ReadById(int(commentId))
 
 		if oldCommentErr != nil {
 			if errors.Is(oldCommentErr, gorm.ErrRecordNotFound) {
@@ -135,7 +135,7 @@ func (e *CommentController) UpdateComment() http.Handler {
 			}
 		}
 
-		updatedComment, updateCommentErr := e.commentsUsecase.Update(commentsId, comments)
+		updatedComment, updateCommentErr := e.commentsUsecase.Update(commentId, comments)
 		updatedComment.CreatedAt = oldComment.CreatedAt
 
 		if updateCommentErr != nil {
@@ -159,7 +159,7 @@ func (e *CommentController) DeleteComment() http.Handler {
 		defer cancel()
 
 		params := mux.Vars(r)
-		id, err := strconv.Atoi(params["commentsId"])
+		id, err := strconv.Atoi(params["commentId"])
 
 		if err != nil {
 			return utils.NewHTTPError(err, 400, "Invalid comments id")

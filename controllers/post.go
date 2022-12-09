@@ -51,7 +51,7 @@ func (e *PostController) GetPost() http.Handler {
 		defer cancel()
 
 		params := mux.Vars(r)
-		id, err := strconv.Atoi(params["id"])
+		id, err := strconv.Atoi(params["postId"])
 
 		if err != nil {
 			return utils.NewHTTPError(err, 400, "Invalid post id")
