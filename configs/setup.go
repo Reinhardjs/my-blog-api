@@ -32,6 +32,7 @@ func init() {
 		fmt.Print(err)
 	}
 	fmt.Println(dbUri)
+
 	db = conn
 
 	// Init redis connection
@@ -41,6 +42,11 @@ func init() {
 	if err != nil {
 		fmt.Print(err)
 	}
+
+	// Db migration
+	// if err := db.AutoMigrate(&models.Post{}, &models.Comment{}); err != nil {
+	// 	log.Fatalln(err)
+	// }
 }
 
 func GetDB() *gorm.DB {
