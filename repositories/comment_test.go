@@ -44,17 +44,15 @@ func TestInit(t *testing.T) {
 }
 
 func (s *Suite) Test_CommentRepo_ReadAll() {
+	// Arange
 	var (
 		id      = 1
 		content = "this-is-content"
 	)
-
 	s.mock.ExpectQuery(regexp.QuoteMeta(
 		`SELECT * FROM "comments" WHERE "comments"."deleted_at" IS NULL`)).
 		WillReturnRows(sqlmock.NewRows([]string{"id", "content"}).
 			AddRow(id, content))
-
-	res, err := s.repository.ReadAll()
 	exp := []models.Comment{
 		{
 			ID:      1,
@@ -62,6 +60,34 @@ func (s *Suite) Test_CommentRepo_ReadAll() {
 		},
 	}
 
+	// Act
+	res, err := s.repository.ReadAll()
+
+	// Assert
+	require.NoError(s.T(), err)
+	require.Equal(s.T(), exp, *res)
+}
+
+func (s *Suite) Test_CommentRepo_ReadById() {
+	// Arrange
+	const (
+		id      = 1
+		content = "this-is-content"
+	)
+	s.mock.ExpectQuery(regexp.QuoteMeta(
+		`SELECT * FROM "comments" WHERE "comments"."deleted_at" IS NULL`)).
+		WithArgs(1).
+		WillReturnRows(sqlmock.NewRows([]string{"id", "content"}).
+			AddRow(id, content))
+	exp := models.Comment{
+		ID:      1,
+		Content: "this-is-content",
+	}
+
+	// Act
+	res, err := s.repository.ReadById(id)
+
+	// Assert
 	require.NoError(s.T(), err)
 	require.Equal(s.T(), exp, *res)
 }
