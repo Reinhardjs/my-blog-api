@@ -58,3 +58,22 @@ func (s *Suite) Test_CommentUsecase_ReadAll() {
 	require.NoError(s.T(), err)
 	require.Equal(s.T(), expectedComments, *actualComments)
 }
+
+func (s *Suite) Test_CommentUsecase_ReadById() {
+	// Arrange
+	s.repository.EXPECT().ReadById(1).Return(&models.Comment{
+		ID:      1,
+		Content: "This is content 1",
+	}, nil)
+	expectedComments := models.Comment{
+		ID:      1,
+		Content: "This is content 1",
+	}
+
+	// Act
+	actualComments, err := s.usecase.ReadById(1)
+
+	// Assert
+	require.NoError(s.T(), err)
+	require.Equal(s.T(), expectedComments, *actualComments)
+}
