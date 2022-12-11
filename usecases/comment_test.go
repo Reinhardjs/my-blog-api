@@ -107,3 +107,15 @@ func (s *Suite) Test_CommentUsecase_Update() {
 	// Assert
 	require.NoError(s.T(), err)
 }
+
+func (s *Suite) Test_CommentUsecase_Delete() {
+	// Arrange
+	const commentId = 1
+	s.repository.EXPECT().Delete(commentId).Return(nil, nil)
+
+	// Act
+	_, err := s.usecase.Delete(commentId)
+
+	// Assert
+	require.NoError(s.T(), err)
+}
