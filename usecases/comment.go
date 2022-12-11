@@ -1,16 +1,23 @@
-package implementations
+package usecases
 
 import (
 	"dot-crud-redis-go-api/models"
 	"dot-crud-redis-go-api/repositories"
-	"dot-crud-redis-go-api/usecases"
 )
+
+type CommentUsecase interface {
+	Create(comment *models.Comment) (*models.Comment, error)
+	ReadAll() (*[]models.Comment, error)
+	ReadById(id int) (*models.Comment, error)
+	Update(id int, comment *models.Comment) (*models.Comment, error)
+	Delete(id int) (map[string]interface{}, error)
+}
 
 type CommentUsecaseImpl struct {
 	commentRepo repositories.CommentRepo
 }
 
-func CreateCommentUsecase(commentRepo repositories.CommentRepo) usecases.CommentUsecase {
+func CreateCommentUsecase(commentRepo repositories.CommentRepo) CommentUsecase {
 	return &CommentUsecaseImpl{commentRepo}
 }
 

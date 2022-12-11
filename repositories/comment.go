@@ -1,8 +1,7 @@
-package implementations
+package repositories
 
 import (
 	"dot-crud-redis-go-api/models"
-	"dot-crud-redis-go-api/repositories"
 	"encoding/json"
 	"fmt"
 	"strconv"
@@ -11,12 +10,20 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
+type CommentRepo interface {
+	Create(comment *models.Comment) (*models.Comment, error)
+	ReadAll() (*[]models.Comment, error)
+	ReadById(id int) (*models.Comment, error)
+	Update(id int, comment *models.Comment) (*models.Comment, error)
+	Delete(id int) (map[string]interface{}, error)
+}
+
 type CommentRepoImpl struct {
 	DB          *gorm.DB
 	RedisClient redis.Conn
 }
 
-func CreateCommentRepo(DB *gorm.DB, RedisClient redis.Conn) repositories.CommentRepo {
+func CreateCommentRepo(DB *gorm.DB, RedisClient redis.Conn) CommentRepo {
 	return &CommentRepoImpl{DB, RedisClient}
 }
 

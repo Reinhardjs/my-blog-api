@@ -1,16 +1,23 @@
-package implementations
+package usecases
 
 import (
 	"dot-crud-redis-go-api/models"
 	"dot-crud-redis-go-api/repositories"
-	"dot-crud-redis-go-api/usecases"
 )
+
+type PostUsecase interface {
+	Create(post *models.Post) (*models.Post, error)
+	ReadAll() (*[]models.Post, error)
+	ReadById(id int) (*models.Post, error)
+	Update(id int, post *models.Post) (*models.Post, error)
+	Delete(id int) (map[string]interface{}, error)
+}
 
 type PostUsecaseImpl struct {
 	postRepo repositories.PostRepo
 }
 
-func CreatePostUsecase(postRepo repositories.PostRepo) usecases.PostUsecase {
+func CreatePostUsecase(postRepo repositories.PostRepo) PostUsecase {
 	return &PostUsecaseImpl{postRepo}
 }
 

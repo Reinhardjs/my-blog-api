@@ -6,8 +6,8 @@ import (
 
 	"github.com/gorilla/mux"
 
-	repositories "dot-crud-redis-go-api/repositories/implementations"
-	usecases "dot-crud-redis-go-api/usecases/implementations"
+	"dot-crud-redis-go-api/repositories"
+	"dot-crud-redis-go-api/usecases"
 )
 
 func CommentRoute(router *mux.Router) {
