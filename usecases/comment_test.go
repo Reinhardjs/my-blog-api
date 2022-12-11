@@ -91,3 +91,19 @@ func (s *Suite) Test_CommentUsecase_Create() {
 	// Assert
 	require.NoError(s.T(), err)
 }
+
+func (s *Suite) Test_CommentUsecase_Update() {
+	// Arrange
+	const commentId = 1
+	comment := &models.Comment{
+		ID:      commentId,
+		Content: "This-is-content",
+	}
+	s.repository.EXPECT().Update(commentId, comment).Return(comment, nil)
+
+	// Act
+	_, err := s.usecase.Update(commentId, comment)
+
+	// Assert
+	require.NoError(s.T(), err)
+}
