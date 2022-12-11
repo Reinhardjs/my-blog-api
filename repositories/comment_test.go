@@ -84,11 +84,13 @@ func (s *Suite) Test_CommentRepo_ReadById() {
 		id      = 1
 		content = "this-is-content"
 	)
+	s.mock.ExpectBegin()
 	s.mock.ExpectQuery(regexp.QuoteMeta(
 		`SELECT * FROM "comments" WHERE "comments"."deleted_at" IS NULL`)).
 		WithArgs(1).
 		WillReturnRows(sqlmock.NewRows([]string{"id", "content"}).
 			AddRow(id, content))
+	s.mock.ExpectCommit()
 	exp := models.Comment{
 		ID:      1,
 		Content: "this-is-content",
