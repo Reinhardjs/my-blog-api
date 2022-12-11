@@ -77,3 +77,17 @@ func (s *Suite) Test_CommentUsecase_ReadById() {
 	require.NoError(s.T(), err)
 	require.Equal(s.T(), expectedComments, *actualComments)
 }
+
+func (s *Suite) Test_CommentUsecase_Create() {
+	// Arrange
+	newComment := &models.Comment{
+		Content: "This-is-content",
+	}
+	s.repository.EXPECT().Create(newComment).Return(newComment, nil)
+
+	// Act
+	_, err := s.usecase.Create(newComment)
+
+	// Assert
+	require.NoError(s.T(), err)
+}
