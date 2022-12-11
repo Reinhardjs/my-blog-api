@@ -15,11 +15,13 @@ type Suite struct {
 
 	ctrl       *gomock.Controller
 	repository *mocks.MockCommentRepo
+	usecase    CommentUsecase
 }
 
 func (s *Suite) SetupSuite() {
 	s.ctrl = gomock.NewController(s.T())
 	s.repository = mocks.NewMockCommentRepo(s.ctrl)
+	s.usecase = CreateCommentUsecase(s.repository)
 }
 
 func (s *Suite) AfterTest(_, _ string) {
@@ -50,7 +52,7 @@ func (s *Suite) Test_CommentUsecase_ReadAll() {
 	}
 
 	// Act
-	actualComments, err := s.repository.ReadAll()
+	actualComments, err := s.usecase.ReadAll()
 
 	// Assert
 	require.NoError(s.T(), err)
