@@ -12,9 +12,8 @@ import (
 
 func CommentRoute(router *mux.Router) {
 	DB := configs.GetDB()
-	RedisClient := configs.GetRedis()
 
-	commentRepository := repositories.CreateCommentRepo(DB, RedisClient)
+	commentRepository := repositories.CreateCommentRepo(DB)
 	commentUsecase := usecases.CreateCommentUsecase(commentRepository)
 	commentController := controllers.CreateCommentController(commentUsecase)
 
