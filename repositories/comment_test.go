@@ -129,11 +129,11 @@ func (s *Suite) Test_CommentRepo_Update() {
 	comment := &models.Comment{
 		Content: "This-is-content",
 	}
-	const sqlInsert = `UPDATE "comments" SET "content" = $1, "updated_at" = $2 WHERE "comments"."deleted_at" IS NULL AND ((id = $3))`
+	const sqlUpdate = `UPDATE "comments" SET "content" = $1, "updated_at" = $2 WHERE "comments"."deleted_at" IS NULL AND ((id = $3))`
 	s.mock.ExpectBegin() // start transaction
-	s.mock.ExpectExec(regexp.QuoteMeta(sqlInsert)).
+	s.mock.ExpectExec(regexp.QuoteMeta(sqlUpdate)).
 		WithArgs(comment.Content, AnyTime{}, commentId).
-		WillReturnResult(sqlmock.NewResult(0, 2))
+		WillReturnResult(sqlmock.NewResult(0, 1))
 	s.mock.ExpectCommit() // commit transaction
 
 	// Act
