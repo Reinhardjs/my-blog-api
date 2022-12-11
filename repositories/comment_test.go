@@ -122,3 +122,23 @@ func (s *Suite) Test_CommentRepo_Create() {
 	require.NoError(s.T(), err)
 	require.Equal(s.T(), comment.ID, newId)
 }
+
+func (s *Suite) Test_CommentRepo_Update() {
+	// Arrange
+	const commentId = 1
+	comment := &models.Comment{
+		Content: "This-is-content",
+	}
+	const sqlInsert = `UPDATE "comments" SET "content" = $1, "updated_at" = $2 WHERE "comments"."deleted_at" IS NULL AND ((id = $3))`
+	s.mock.ExpectBegin() // start transaction
+	s.mock.ExpectExec(regexp.QuoteMeta(sqlInsert)).
+		WithArgs(comment.Content, AnyTime{}, commentId).
+		WillReturnResult(sqlmock.NewResult(0, 2))
+	s.mock.ExpectCommit() // commit transaction
+
+	// Act
+	comment, err := s.repository.Update(commentId, comment)
+
+	// Assert
+	require.NoError(s.T(), err)
+}
