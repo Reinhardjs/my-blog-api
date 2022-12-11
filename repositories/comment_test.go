@@ -2,9 +2,11 @@ package repositories
 
 import (
 	"database/sql"
+	"database/sql/driver"
 	"dot-crud-redis-go-api/models"
 	"regexp"
 	"testing"
+	"time"
 
 	"github.com/jinzhu/gorm"
 	"github.com/stretchr/testify/require"
@@ -12,11 +14,19 @@ import (
 	"gopkg.in/DATA-DOG/go-sqlmock.v1"
 )
 
+type AnyTime struct{}
+
 type Suite struct {
 	suite.Suite
 	DB         *gorm.DB
 	mock       sqlmock.Sqlmock
 	repository CommentRepo
+}
+
+// Match satisfies sqlmock.Argument interface
+func (a AnyTime) Match(v driver.Value) bool {
+	_, ok := v.(time.Time)
+	return ok
 }
 
 func (s *Suite) SetupSuite() {
@@ -90,4 +100,25 @@ func (s *Suite) Test_CommentRepo_ReadById() {
 	// Assert
 	require.NoError(s.T(), err)
 	require.Equal(s.T(), exp, *res)
+}
+
+func (s *Suite) Test_CommentRepo_Create() {
+	// Arrange
+	comment := &models.Comment{
+		Content: "This-is-content",
+	}
+	const sqlInsert = `INSERT INTO "comments" ("post_id","comment_id","nickname","content","created_at","updated_at","deleted_at") VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING "comments"."id"`
+	const newId int64 = 1
+	s.mock.ExpectBegin() // start transaction
+	s.mock.ExpectQuery(regexp.QuoteMeta(sqlInsert)).
+		WithArgs(0, 0, "", comment.Content, AnyTime{}, AnyTime{}, nil).
+		WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(newId))
+	s.mock.ExpectCommit() // commit transaction
+
+	// Act
+	comment, err := s.repository.Create(comment)
+
+	// Assert
+	require.NoError(s.T(), err)
+	require.Equal(s.T(), comment.ID, newId)
 }
