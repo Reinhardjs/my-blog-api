@@ -1,4 +1,4 @@
-module dot-crud-redis-go-api
+module my-web-api
 
 go 1.19
 

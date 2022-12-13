@@ -2,12 +2,12 @@ package controllers
 
 import (
 	"context"
-	"dot-crud-redis-go-api/models"
-	"dot-crud-redis-go-api/responses"
-	"dot-crud-redis-go-api/usecases"
-	"dot-crud-redis-go-api/utils"
 	"encoding/json"
 	"errors"
+	"my-web-api/models"
+	"my-web-api/responses"
+	"my-web-api/usecases"
+	"my-web-api/utils"
 	"net/http"
 	"strconv"
 	"time"

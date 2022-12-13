@@ -3,7 +3,7 @@ package repositories
 import (
 	"database/sql"
 	"database/sql/driver"
-	"dot-crud-redis-go-api/models"
+	"my-web-api/models"
 	"regexp"
 	"testing"
 	"time"

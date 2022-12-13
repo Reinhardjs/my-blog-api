@@ -1,8 +1,8 @@
 package repositories
 
 import (
-	"dot-crud-redis-go-api/models"
 	"fmt"
+	"my-web-api/models"
 
 	"github.com/jinzhu/gorm"
 )

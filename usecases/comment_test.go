@@ -1,8 +1,8 @@
 package usecases
 
 import (
-	mocks "dot-crud-redis-go-api/mocks/repositories"
-	"dot-crud-redis-go-api/models"
+	mocks "my-web-api/mocks/repositories"
+	"my-web-api/models"
 	"testing"
 
 	"github.com/golang/mock/gomock"

@@ -5,7 +5,7 @@
 package mocks
 
 import (
-	models "dot-crud-redis-go-api/models"
+	models "my-web-api/models"
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"

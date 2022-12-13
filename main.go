@@ -6,7 +6,7 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"dot-crud-redis-go-api/routes"
+	"my-web-api/routes"
 )
 
 func main() {

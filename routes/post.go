@@ -1,13 +1,13 @@
 package routes
 
 import (
-	"dot-crud-redis-go-api/configs"
-	"dot-crud-redis-go-api/controllers"
+	"my-web-api/configs"
+	"my-web-api/controllers"
 
 	"github.com/gorilla/mux"
 
-	"dot-crud-redis-go-api/repositories"
-	"dot-crud-redis-go-api/usecases"
+	"my-web-api/repositories"
+	"my-web-api/usecases"
 )
 
 func PostRoute(router *mux.Router) {

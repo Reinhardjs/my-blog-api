@@ -1,8 +1,8 @@
 package usecases
 
 import (
-	"dot-crud-redis-go-api/models"
-	"dot-crud-redis-go-api/repositories"
+	"my-web-api/models"
+	"my-web-api/repositories"
 )
 
 type CommentUsecase interface {

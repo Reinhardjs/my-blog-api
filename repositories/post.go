@@ -1,9 +1,9 @@
 package repositories
 
 import (
-	"dot-crud-redis-go-api/models"
 	"encoding/json"
 	"fmt"
+	"my-web-api/models"
 	"strconv"
 
 	"github.com/garyburd/redigo/redis"

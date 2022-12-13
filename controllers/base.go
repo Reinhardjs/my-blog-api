@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"dot-crud-redis-go-api/utils"
 	"fmt"
 	"log"
+	"my-web-api/utils"
 	"net/http"
 )
 
