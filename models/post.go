@@ -10,6 +10,7 @@ type Post struct {
 	Nickname  string     `json:"nickname"`
 	Title     string     `json:"title"`
 	Content   string     `json:"content"`
+	Tags      string     `json:"tags"`
 	CreatedAt *time.Time `json:"createdAt"`
 	UpdatedAt *time.Time `json:"updatedAt"`
 	DeletedAt *time.Time `json:"deletedAt" sql:"index"`
