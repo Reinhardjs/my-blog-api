@@ -114,10 +114,6 @@ func (e *PostController) UpdatePost() http.Handler {
 		params := mux.Vars(r)
 		url := params["postUrl"]
 
-		if err != nil {
-			return utils.NewHTTPError(nil, 400, "Invalid post id")
-		}
-
 		post := &models.Post{}
 		decodeError := json.NewDecoder(r.Body).Decode(post)
 		if decodeError != nil {

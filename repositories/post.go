@@ -60,7 +60,7 @@ func (e *PostRepoImpl) ReadByUrl(url string) (*models.Post, error) {
 
 func (e *PostRepoImpl) Update(id int, post *models.Post) (*models.Post, error) {
 	updatedPost := &models.Post{}
-	result := e.DB.Model(updatedPost).Where("id = ?", id).Updates(models.Post{Nickname: post.Nickname, Title: post.Title, Content: post.Content})
+	result := e.DB.Model(updatedPost).Where("id = ?", id).Updates(models.Post{Nickname: post.Nickname, Title: post.Title, Content: post.Content, Url: post.Url})
 
 	if result.Error != nil {
 		return nil, fmt.Errorf("DB error : %v", result.Error)
