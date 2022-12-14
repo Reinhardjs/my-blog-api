@@ -49,7 +49,7 @@ func (e *PostRepoImpl) ReadAll() (*[]models.Post, error) {
 func (e *PostRepoImpl) ReadById(id int) (*models.Post, error) {
 	post := &models.Post{}
 
-	errorRead := e.DB.Table("posts").Where("id = ?", id).First(post).Error
+	errorRead := e.DB.Table("posts").Where("url = ?", id).First(post).Error
 
 	if errorRead != nil {
 		return nil, errorRead
