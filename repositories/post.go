@@ -11,7 +11,7 @@ import (
 type PostRepo interface {
 	Create(post *models.Post) (*models.Post, error)
 	ReadAll() (*[]models.Post, error)
-	ReadById(id int) (*models.Post, error)
+	ReadByUrl(url string) (*models.Post, error)
 	Update(id int, post *models.Post) (*models.Post, error)
 	Delete(id int) (map[string]interface{}, error)
 }
@@ -46,10 +46,10 @@ func (e *PostRepoImpl) ReadAll() (*[]models.Post, error) {
 	return &posts, nil
 }
 
-func (e *PostRepoImpl) ReadById(id int) (*models.Post, error) {
+func (e *PostRepoImpl) ReadByUrl(url string) (*models.Post, error) {
 	post := &models.Post{}
 
-	errorRead := e.DB.Table("posts").Where("url = ?", id).First(post).Error
+	errorRead := e.DB.Table("posts").Where("url = ?", url).First(post).Error
 
 	if errorRead != nil {
 		return nil, errorRead

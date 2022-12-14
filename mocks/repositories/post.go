@@ -79,19 +79,19 @@ func (mr *MockPostRepoMockRecorder) ReadAll() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadAll", reflect.TypeOf((*MockPostRepo)(nil).ReadAll))
 }
 
-// ReadById mocks base method.
-func (m *MockPostRepo) ReadById(id int) (*models.Post, error) {
+// ReadByUrl mocks base method.
+func (m *MockPostRepo) ReadByUrl(url string) (*models.Post, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReadById", id)
+	ret := m.ctrl.Call(m, "ReadByUrl", url)
 	ret0, _ := ret[0].(*models.Post)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// ReadById indicates an expected call of ReadById.
-func (mr *MockPostRepoMockRecorder) ReadById(id interface{}) *gomock.Call {
+// ReadByUrl indicates an expected call of ReadByUrl.
+func (mr *MockPostRepoMockRecorder) ReadByUrl(id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadById", reflect.TypeOf((*MockPostRepo)(nil).ReadById), id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadByUrl", reflect.TypeOf((*MockPostRepo)(nil).ReadByUrl), id)
 }
 
 // Update mocks base method.

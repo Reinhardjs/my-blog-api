@@ -9,7 +9,6 @@ import (
 	"my-web-api/usecases"
 	"my-web-api/utils"
 	"net/http"
-	"strconv"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -51,15 +50,11 @@ func (e *PostController) GetPost() http.Handler {
 		defer cancel()
 
 		params := mux.Vars(r)
-		id, err := strconv.Atoi(params["postId"])
-
-		if err != nil {
-			return utils.NewHTTPError(err, 400, "Invalid post id")
-		}
+		url := params["postUrl"]
 
 		rw.Header().Add("Content-Type", "application/json")
 
-		post, err := e.postUsecase.ReadById(int(id))
+		post, err := e.postUsecase.ReadByUrl(url)
 
 		if err != nil {
 			if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -117,7 +112,7 @@ func (e *PostController) UpdatePost() http.Handler {
 		rw.Header().Add("Content-Type", "application/json")
 
 		params := mux.Vars(r)
-		postId, err := strconv.Atoi(params["postId"])
+		url := params["postUrl"]
 
 		if err != nil {
 			return utils.NewHTTPError(nil, 400, "Invalid post id")
@@ -135,7 +130,7 @@ func (e *PostController) UpdatePost() http.Handler {
 			}
 		}
 
-		oldPost, oldPostErr := e.postUsecase.ReadById(int(postId))
+		oldPost, oldPostErr := e.postUsecase.ReadByUrl(url)
 
 		if oldPostErr != nil {
 			if errors.Is(oldPostErr, gorm.ErrRecordNotFound) {
@@ -145,7 +140,7 @@ func (e *PostController) UpdatePost() http.Handler {
 			}
 		}
 
-		updatedPost, updatePostErr := e.postUsecase.Update(postId, post)
+		updatedPost, updatePostErr := e.postUsecase.Update(int(oldPost.ID), post)
 		updatedPost.CreatedAt = oldPost.CreatedAt
 
 		if updatePostErr != nil {
@@ -169,16 +164,12 @@ func (e *PostController) DeletePost() http.Handler {
 		defer cancel()
 
 		params := mux.Vars(r)
-		id, err := strconv.Atoi(params["postId"])
-
-		if err != nil {
-			return utils.NewHTTPError(err, 400, "Invalid post id")
-		}
+		url := params["postUrl"]
 
 		rw.Header().Add("Content-Type", "application/json")
 
 		// Check for existing record
-		_, existingPostErr := e.postUsecase.ReadById(int(id))
+		existingPost, existingPostErr := e.postUsecase.ReadByUrl(url)
 		if existingPostErr != nil {
 			if errors.Is(existingPostErr, gorm.ErrRecordNotFound) {
 				return utils.NewHTTPError(existingPostErr, 404, "record not found")
@@ -187,7 +178,7 @@ func (e *PostController) DeletePost() http.Handler {
 			}
 		}
 
-		post, err := e.postUsecase.Delete(id)
+		post, err := e.postUsecase.Delete(int(existingPost.ID))
 
 		if err != nil {
 			return err

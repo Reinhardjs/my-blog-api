@@ -8,7 +8,7 @@ import (
 type PostUsecase interface {
 	Create(post *models.Post) (*models.Post, error)
 	ReadAll() (*[]models.Post, error)
-	ReadById(id int) (*models.Post, error)
+	ReadByUrl(url string) (*models.Post, error)
 	Update(id int, post *models.Post) (*models.Post, error)
 	Delete(id int) (map[string]interface{}, error)
 }
@@ -29,8 +29,8 @@ func (e *PostUsecaseImpl) ReadAll() (*[]models.Post, error) {
 	return e.postRepo.ReadAll()
 }
 
-func (e *PostUsecaseImpl) ReadById(id int) (*models.Post, error) {
-	return e.postRepo.ReadById(id)
+func (e *PostUsecaseImpl) ReadByUrl(url string) (*models.Post, error) {
+	return e.postRepo.ReadByUrl(url)
 }
 
 func (e *PostUsecaseImpl) Update(id int, post *models.Post) (*models.Post, error) {

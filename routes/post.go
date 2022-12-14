@@ -19,9 +19,9 @@ func PostRoute(router *mux.Router) {
 	postController := controllers.CreatePostController(postUsecase)
 
 	router.Handle("/posts", postController.GetPosts()).Methods("GET")
-	router.Handle("/posts/{postId}", postController.GetPost()).Methods("GET")
+	router.Handle("/posts/{postUrl}", postController.GetPost()).Methods("GET")
 	router.Handle("/posts", postController.CreatePost()).Methods("POST")
-	router.Handle("/posts/{postId}", postController.UpdatePost()).Methods("PUT")
-	router.Handle("/posts/{postId}", postController.UpdatePost()).Methods("PATCH")
-	router.Handle("/posts/{postId}", postController.DeletePost()).Methods("DELETE")
+	router.Handle("/posts/{postUrl}", postController.UpdatePost()).Methods("PUT")
+	router.Handle("/posts/{postUrl}", postController.UpdatePost()).Methods("PATCH")
+	router.Handle("/posts/{postUrl}", postController.DeletePost()).Methods("DELETE")
 }
