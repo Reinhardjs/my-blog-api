@@ -14,6 +14,7 @@ type PostRepo interface {
 	ReadByUrl(url string) (*models.Post, error)
 	Update(id int, post *models.Post) (*models.Post, error)
 	Delete(id int) (map[string]interface{}, error)
+	ReadAllByTag(tag string) (*[]models.Post, error)
 }
 
 type PostRepoImpl struct {
@@ -75,4 +76,15 @@ func (e *PostRepoImpl) Delete(id int) (map[string]interface{}, error) {
 	return map[string]interface{}{
 		"rows_affected": result.RowsAffected,
 	}, nil
+}
+
+func (e *PostRepoImpl) ReadAllByTag(tag string) (*[]models.Post, error) {
+	posts := make([]models.Post, 0)
+
+	err := e.DB.Table("posts").Where("tags = ?", tag).Find(&posts).Error
+	if err != nil {
+		return nil, fmt.Errorf("DB error : %v", err)
+	}
+
+	return &posts, nil
 }

@@ -11,6 +11,7 @@ type PostUsecase interface {
 	ReadByUrl(url string) (*models.Post, error)
 	Update(id int, post *models.Post) (*models.Post, error)
 	Delete(id int) (map[string]interface{}, error)
+	ReadAllByTag(tag string) (*[]models.Post, error)
 }
 
 type PostUsecaseImpl struct {
@@ -39,4 +40,8 @@ func (e *PostUsecaseImpl) Update(id int, post *models.Post) (*models.Post, error
 
 func (e *PostUsecaseImpl) Delete(id int) (map[string]interface{}, error) {
 	return e.postRepo.Delete(id)
+}
+
+func (e *PostUsecaseImpl) ReadAllByTag(tag string) (*[]models.Post, error) {
+	return e.postRepo.ReadAllByTag(tag)
 }
