@@ -89,9 +89,9 @@ func (m *MockPostUsecase) ReadByUrl(url string) (*models.Post, error) {
 }
 
 // ReadByUrl indicates an expected call of ReadByUrl.
-func (mr *MockPostUsecaseMockRecorder) ReadByUrl(id interface{}) *gomock.Call {
+func (mr *MockPostUsecaseMockRecorder) ReadByUrl(url interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadByUrl", reflect.TypeOf((*MockPostUsecase)(nil).ReadByUrl), id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadByUrl", reflect.TypeOf((*MockPostUsecase)(nil).ReadByUrl), url)
 }
 
 // Update mocks base method.
