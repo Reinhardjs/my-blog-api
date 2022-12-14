@@ -4,11 +4,11 @@ go 1.19
 
 require (
 	github.com/garyburd/redigo v1.6.4
-	github.com/go-test/deep v1.1.0
 	github.com/golang/mock v1.6.0
 	github.com/gorilla/mux v1.8.0
 	github.com/jinzhu/gorm v1.9.16
 	github.com/joho/godotenv v1.4.0
+	github.com/rs/cors v1.8.2
 	github.com/stretchr/testify v1.7.0
 	gopkg.in/DATA-DOG/go-sqlmock.v1 v1.3.0
 )
