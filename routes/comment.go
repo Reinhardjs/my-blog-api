@@ -19,8 +19,8 @@ func CommentRoute(router *mux.Router) {
 
 	router.Handle("/comments", commentController.GetComments()).Methods("GET")
 	router.Handle("/comments/{commentId}", commentController.GetComment()).Methods("GET")
-	router.Handle("/comments", commentController.CreateComment()).Methods("POST")
-	router.Handle("/comments/{commentId}", commentController.UpdateComment()).Methods("PUT")
-	router.Handle("/comments/{commentId}", commentController.UpdateComment()).Methods("PATCH")
-	router.Handle("/comments/{commentId}", commentController.DeleteComment()).Methods("DELETE")
+	// router.Handle("/comments", commentController.CreateComment()).Methods("POST")
+	// router.Handle("/comments/{commentId}", commentController.UpdateComment()).Methods("PUT")
+	// router.Handle("/comments/{commentId}", commentController.UpdateComment()).Methods("PATCH")
+	// router.Handle("/comments/{commentId}", commentController.DeleteComment()).Methods("DELETE")
 }
