@@ -3,6 +3,7 @@ package configs
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/garyburd/redigo/redis"
 	"github.com/jinzhu/gorm"
@@ -27,9 +28,22 @@ func init() {
 	dbHost := os.Getenv("db_host")
 	sslMode := os.Getenv("sslmode")
 	dbUri := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=%s password=%s", dbHost, username, dbName, sslMode, password)
-	conn, err := gorm.Open("postgres", dbUri)
-	if err != nil {
-		fmt.Print(err)
+
+	var conn *gorm.DB
+	var err error
+	retryLimit := time.Now().Add(1 * time.Minute)
+
+	for {
+		conn, err = gorm.Open("postgres", dbUri)
+		if err == nil {
+			break
+		}
+		fmt.Println("Failed to connect to database. Retrying...")
+		time.Sleep(5 * time.Second)
+		if time.Now().After(retryLimit) {
+			fmt.Println("Exceeded retry limit. Exiting...")
+			os.Exit(1)
+		}
 	}
 	fmt.Println(dbUri)
 
