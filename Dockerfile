@@ -1,32 +1,38 @@
-# Start from golang base image
-FROM golang:alpine
+# Build stage
+FROM golang:alpine AS builder
 
-# Add Maintainer info
-LABEL maintainer="Reinhard Jonathan Silalahi"
+# Install git and build tools
+RUN apk update && \
+    apk add --no-cache git build-base
 
-# Install git.
-# Git is required for fetching the dependencies.
-RUN apk update && apk add --no-cache git && apk add --no-cach bash && apk add build-base
+# Setup build directory
+WORKDIR /build
 
-# Setup folders
-RUN mkdir /app
-WORKDIR /app
+# Copy only necessary files for dependencies
+COPY go.mod go.sum ./
+RUN go mod download
 
-# Copy the source from the current directory to the working Directory inside the container
+# Copy the rest of the source code
 COPY . .
 COPY .env .
 
-# Download all the dependencies
-RUN go get -d -v ./...
+# Build the application
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
 
-# Install the package
-RUN go install -v ./...
+# Final stage
+FROM alpine:latest
 
-# Build the Go app
-RUN go build -o /build
+# Install ca-certificates for HTTPS
+RUN apk --no-cache add ca-certificates
 
-# Expose port 8080 to the outside world
+WORKDIR /app
+
+# Copy only the binary and env file from builder
+COPY --from=builder /build/main .
+COPY --from=builder /build/.env .
+
+# Expose port
 EXPOSE 8080
 
-# Run the executable
-CMD [ "/build" ]
+# Run the binary
+CMD ["./main"]
