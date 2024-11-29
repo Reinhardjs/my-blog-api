@@ -15,13 +15,20 @@ var db *gorm.DB
 var redisClient redis.Conn
 
 func init() {
-
 	e := godotenv.Load()
 	if e != nil {
 		fmt.Print(e)
 	}
 
-	// Init PostgreDB connection
+	ConnectDatabases()
+}
+
+func ConnectDatabases() {
+	go connectPostgres()
+	go connectRedis()
+}
+
+func connectPostgres() {
 	username := os.Getenv("db_user")
 	password := os.Getenv("db_pass")
 	dbName := os.Getenv("db_name")
@@ -41,26 +48,22 @@ func init() {
 		fmt.Println("Failed to connect to database. Retrying...")
 		time.Sleep(5 * time.Second)
 		if time.Now().After(retryLimit) {
-			fmt.Println("Exceeded retry limit. Exiting...")
-			os.Exit(1)
+			fmt.Println("Exceeded retry limit. Continuing without database connection...")
+			return
 		}
 	}
-	fmt.Println(dbUri)
-
+	fmt.Println("Connected to PostgreSQL:", dbUri)
 	db = conn
+}
 
-	// Init redis connection
+func connectRedis() {
 	redisConnection, err := redis.Dial("tcp", os.Getenv("redis_host")+":6379")
-	redisClient = redisConnection
-
 	if err != nil {
-		fmt.Print(err)
+		fmt.Println("Failed to connect to Redis. Continuing without Redis connection...")
+		return
 	}
-
-	// Db migration
-	// if err := db.AutoMigrate(&models.Post{}, &models.Comment{}); err != nil {
-	// 	log.Fatalln(err)
-	// }
+	fmt.Println("Connected to Redis")
+	redisClient = redisConnection
 }
 
 func GetDB() *gorm.DB {
